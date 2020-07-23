@@ -1,10 +1,9 @@
-package com.kikimore.leduino.ui.notifications;
+package com.kikimore.leduino.ui.colors;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -14,20 +13,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.kikimore.leduino.R;
 
-public class NotificationsFragment extends Fragment {
+public class ColorsFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private ColorsViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(this, new Observer<String>() {
+        dashboardViewModel =
+                ViewModelProviders.of(this).get(ColorsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_colors, container, false);
+        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+
             }
         });
         return root;
