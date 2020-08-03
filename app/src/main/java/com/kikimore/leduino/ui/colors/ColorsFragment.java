@@ -8,7 +8,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -22,9 +27,11 @@ import com.kikimore.leduino.R;
 import com.kikimore.leduino.RVdeviceListAdapter;
 
 public class ColorsFragment extends Fragment {
-    ImageView hueWheel;
-    View mColor;
-    Bitmap bitmap;
+    private ImageView hueWheel;
+    private View mColor;
+    private Bitmap bitmap;
+    private CheckBox PresetCB;
+    private Spinner sp_preset, sp_device;
 
     private ColorsViewModel homeViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,28 +47,45 @@ public class ColorsFragment extends Fragment {
 
                 hueWheel = root.findViewById(R.id.hueWheel);
                 mColor = root.findViewById(R.id.view);
+                PresetCB = root.findViewById(R.id.PresetOnCheckbox);
+                sp_preset = root.findViewById(R.id.sp_preset);
 
                 hueWheel.setDrawingCacheEnabled(true);
-                hueWheel.buildDrawingCache(true);
+                hueWheel.buildDrawingCache(false);
 
                 hueWheel.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
-                            bitmap = hueWheel.getDrawingCache();
+                            try {
 
-                            int pixel = bitmap.getPixel((int)event.getX(),(int)event.getY());
+                                bitmap = hueWheel.getDrawingCache();
 
-                            int r = Color.red(pixel);
-                            int g = Color.green(pixel);
-                            int b = Color.blue(pixel);
+                                int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
 
-                            mColor.setBackgroundColor(Color.rgb(r, g, b));
+                                int r = Color.red(pixel);
+                                int g = Color.green(pixel);
+                                int b = Color.blue(pixel);
+
+                                mColor.setBackgroundColor(Color.rgb(r, g, b));
+                            }catch(Exception e){
+                                //Toast.makeText(getContext(), "Вы вышли за пределы колеса", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         return true;
                     }
                 });
 
+                PresetCB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(PresetCB.isChecked()){
+                            sp_preset.setVisibility(View.VISIBLE);
+                        }else{
+                            sp_preset.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
 
             }
         });
