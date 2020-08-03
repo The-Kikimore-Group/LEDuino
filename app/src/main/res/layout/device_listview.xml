@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,22 +22,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Компухтер:"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:textSize="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp">
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="10dp">
                     <TextView
                         android:id="@+id/SSID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="18dp"
                         android:text="SSID: Wifi" />
+
                     <TextView
-                        android:layout_marginHorizontal="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MAC: 9:228:322:2"/>
+                        android:layout_marginHorizontal="30dp"
+                        android:text="IP: 192.168.0.1"
+                        android:textSize="18dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -44,7 +51,7 @@
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
@@ -56,12 +63,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Тип ленты: Жопа"
+                    android:textSize="18dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="20dp"/>
                 <TextView
                     android:id="@+id/voltageOfDevice"
                     android:layout_marginHorizontal="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_marginBottom="10dp"
                     android:text="Напряжение на ленте: 2000V нахуй"/>
 
             </LinearLayout>
@@ -72,9 +83,17 @@
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider" />
             <LinearLayout
+                android:id="@+id/settingsbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <TextView
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="Перейти в настройки"
+                    android:layout_marginVertical="10dp"/>
             </LinearLayout>
             <View
                 android:id="@+id/divider3"
@@ -85,8 +104,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:id="@+id/delDevice">
+                <TextView
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Удалить устройство"
+                    android:textSize="18dp"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="#ff0000"/>
             </LinearLayout>
         </LinearLayout>
 

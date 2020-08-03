@@ -10,7 +10,7 @@ public class ColorsViewModel extends ViewModel {
 
     public ColorsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {
