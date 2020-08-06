@@ -12,7 +12,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private openDBHelper dBhelper;
+
+    public static ArrayList<String> id, title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        id = new ArrayList<>();
+        title = new ArrayList<>();
+
+        dBhelper = new openDBHelper(this);
+
+        Cursor cursor = dBhelper.cursor();
+
+        while (cursor.moveToNext()) {
+            id.add(cursor.getString(0));
+            title.add(cursor.getString(1));
+        }
 
     }
 
 }
+
+

@@ -1,5 +1,7 @@
 package com.kikimore.leduino.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +16,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kikimore.leduino.MainActivity;
 import com.kikimore.leduino.R;
 import com.kikimore.leduino.RVdeviceListAdapter;
+import com.kikimore.leduino.add_device;
+import com.kikimore.leduino.openDBHelper;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel dashboardViewModel;
-    openDBhelper dBhelper;
     private RecyclerView rv;
+    private FloatingActionButton fab;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,25 +40,21 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 rv = root.findViewById(R.id.deviceInfo);
+                fab = root.findViewById(R.id.AddButton);
 
-                RVdeviceListAdapter adapter = new RVdeviceListAdapter();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), add_device.class);
+                        startActivity(intent);
+                    }
+                });
 
-                dBhelper = new openDBhelper();
-
-                //Cursor cursor = dBhelper.cursor();
-
-               // while (cursor.moveToNext()) {
-               //     id.add(cursor.getString(0));
-               //     title.add(cursor.getString(1));
-               // }
-
+                RVdeviceListAdapter adapter = new RVdeviceListAdapter(getContext());
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 rv.setAdapter(adapter);
             }
         });
         return root;
-    }
-
-    private class openDBhelper {
     }
 }

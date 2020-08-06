@@ -20,7 +20,7 @@ public class openDBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TYPE = "type";
 
     public openDBHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME , null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
@@ -63,8 +63,20 @@ public class openDBHelper extends SQLiteOpenHelper {
             toast.show();
         }
     }
-    void deleteData(String row_id){
+    public void deleteData(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME,"id=?", new String[]{row_id});
+    }
+    public void addInfo(String title){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TITLE, title);
+
+        long result = db.insert(TABLE_NAME, null, cv);
+        if(result == - 1){
+            Toast toast = Toast.makeText(context, "Failed", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }
