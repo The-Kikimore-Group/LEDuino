@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kikimore.leduino.MainActivity;
@@ -29,9 +30,10 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel dashboardViewModel;
-    private static RecyclerView rv;
+    private RecyclerView rv;
     private FloatingActionButton fab;
     private static RVdeviceListAdapter adapter;
+    private SwipeRefreshLayout swp;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,10 +45,21 @@ public class HomeFragment extends Fragment {
             public void onChanged(@Nullable String s) {
                 rv = root.findViewById(R.id.deviceInfo);
                 fab = root.findViewById(R.id.AddButton);
+                swp = root.findViewById(R.id.refresh);
 
                 adapter = new RVdeviceListAdapter(getContext());
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 rv.setAdapter(adapter);
+                adapter.initcv(getContext());
+
+                swp.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        adapter.initcv(getContext());
+                        adapter.notifyDataSetChanged();
+                        swp.setRefreshing(false);
+                    }
+                });
 
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -60,8 +73,9 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
-
-    public static void remove(int position) {
-        rv.removeViewAt(position);
+    public static void ref(Context context){
+        adapter.initcv(context);
+        adapter.notifyItemInserted(0);
     }
+
 }

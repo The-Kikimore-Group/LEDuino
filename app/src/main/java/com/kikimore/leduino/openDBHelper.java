@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class openDBHelper extends SQLiteOpenHelper {
     private Context context;
@@ -78,5 +79,6 @@ public class openDBHelper extends SQLiteOpenHelper {
             Toast toast = Toast.makeText(context, "Failed", Toast.LENGTH_SHORT);
             toast.show();
         }
+
     }
 }

@@ -3,12 +3,18 @@ package com.kikimore.leduino;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.kikimore.leduino.ui.home.HomeFragment;
+import com.kikimore.leduino.ui.home.HomeViewModel;
 
 public class add_device extends AppCompatActivity {
 
@@ -22,20 +28,23 @@ public class add_device extends AppCompatActivity {
         addname = findViewById(R.id.addDeviceName);
         addButton = findViewById(R.id.addDevice);
 
-        final RecyclerView.Adapter adapter = new RVdeviceListAdapter(this);
 
-        final openDBHelper dBhelper = new openDBHelper(this);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dBhelper.addInfo(addname.getText().toString());
-                adapter.notifyDataSetChanged();
+                RecyclerView.Adapter adapter = new RVdeviceListAdapter(getApplicationContext());
+                openDBHelper dBhelper = new openDBHelper(getApplicationContext());
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                dBhelper.addInfo(addname.getText().toString());
+                HomeFragment.ref(getApplicationContext());
+                //adapter.notifyItemInserted(0);
+                close();
             }
         });
 
+    }
+    private void close(){
+        this.finish();
     }
 }
