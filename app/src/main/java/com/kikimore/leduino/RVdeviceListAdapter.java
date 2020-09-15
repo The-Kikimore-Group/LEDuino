@@ -100,7 +100,7 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
 
             Cursor cursor = dBhelper.cursor();
 
-            id.clear();
+            id.clear();//
             title.clear();
 
             while (cursor.moveToNext()) {
