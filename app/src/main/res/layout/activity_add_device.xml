@@ -8,23 +8,37 @@
 
     <EditText
         android:id="@+id/addDeviceName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_width="378dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="64dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="Введите название устройства"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addDevice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="Button"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="162dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="544dp"
+        android:text="Продолжить"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addDeviceName" />
+
+    <Spinner
+        android:id="@+id/DeviceAddingSp"
+        android:layout_width="373dp"
+        android:layout_height="57dp"
+        app:layout_constraintBottom_toTopOf="@+id/addDevice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addDeviceName"
+        app:layout_constraintVertical_bias="0.05" />
 </androidx.constraintlayout.widget.ConstraintLayout>

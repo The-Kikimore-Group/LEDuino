@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,8 +29,9 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel dashboardViewModel;
-    private RecyclerView rv;
+    private static RecyclerView rv;
     private FloatingActionButton fab;
+    private static RVdeviceListAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +44,10 @@ public class HomeFragment extends Fragment {
                 rv = root.findViewById(R.id.deviceInfo);
                 fab = root.findViewById(R.id.AddButton);
 
+                adapter = new RVdeviceListAdapter(getContext());
+                rv.setLayoutManager(new LinearLayoutManager(getContext()));
+                rv.setAdapter(adapter);
+
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -50,11 +56,12 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-                RVdeviceListAdapter adapter = new RVdeviceListAdapter(getContext());
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                rv.setAdapter(adapter);
             }
         });
         return root;
+    }
+
+    public static void remove(int position) {
+        rv.removeViewAt(position);
     }
 }

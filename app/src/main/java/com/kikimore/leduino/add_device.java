@@ -36,5 +36,6 @@ public class add_device extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 }

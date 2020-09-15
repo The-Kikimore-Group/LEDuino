@@ -1,9 +1,12 @@
 package com.kikimore.leduino;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,15 +39,21 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull deviceListView holder, final int position) {
-        final openDBHelper dbHelper = new openDBHelper(context);
+    public void onBindViewHolder(@NonNull final deviceListView holder, final int position) {
 
-        holder.nameOfDevice.setText(MainActivity.title.get(position));
-       holder.delDevice.setOnClickListener(new View.OnClickListener() {
+         holder.nameOfDevice.setText(MainActivity.title.get(position));
+
+         holder.delDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final openDBHelper dbHelper = new openDBHelper(context);
+
                 dbHelper.deleteData(MainActivity.id.get(position));
-                notifyDataSetChanged();
+
+                Intent intent = new Intent(context, HomeFragment.class);
+                context.startActivity(intent);
+
+               // notifyItemRemoved(position);
             }
         });
     }
@@ -59,7 +68,7 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
         TextView nameOfDevice;
         LinearLayout delDevice;
 
-        public deviceListView(@NonNull View itemView) {
+        public deviceListView(@NonNull final View itemView) {
             super(itemView);
             nameOfDevice = itemView.findViewById(R.id.nameOfDevice);
             delDevice = itemView.findViewById(R.id.delDevice);
