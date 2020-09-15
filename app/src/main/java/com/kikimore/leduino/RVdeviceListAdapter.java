@@ -107,6 +107,5 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
                 id.add(cursor.getString(0));
                 title.add(cursor.getString(1));
             }
-            Toast.makeText(context, String.valueOf(id.size()), Toast.LENGTH_SHORT).show();
     }
 }
