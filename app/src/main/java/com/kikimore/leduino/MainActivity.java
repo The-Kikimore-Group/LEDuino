@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
     public static void initcv() {
         Cursor cursor = dBhelper.cursor();
 
+        id.clear();
+        title.clear();
+
         while (cursor.moveToNext()) {
             id.add(cursor.getString(0));
             title.add(cursor.getString(1));

@@ -1,6 +1,7 @@
 package com.kikimore.leduino.ui.colors;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.ImageView;
@@ -23,14 +25,24 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kikimore.leduino.MainActivity;
 import com.kikimore.leduino.R;
 import com.kikimore.leduino.RVdeviceListAdapter;
+import com.kikimore.leduino.openDBHelper;
+
+import java.util.ArrayList;
+
+import top.defaults.colorpicker.ColorObserver;
+import top.defaults.colorpicker.ColorPickerPopup;
+import top.defaults.colorpicker.ColorPickerView;
 
 public class ColorsFragment extends Fragment {
-    private ImageView hueWheel;
-    private View mColor;
-    private Bitmap bitmap;
+
     private CheckBox PresetCB;
+    private static openDBHelper dBhelper;
+    private static ArrayList<String> title = new ArrayList<>();
+    private ColorPickerView colorPickerView;
+
     private Spinner sp_preset, sp_device;
 
     private ColorsViewModel homeViewModel;
@@ -45,34 +57,22 @@ public class ColorsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
 
-                hueWheel = root.findViewById(R.id.hueWheel);
-                mColor = root.findViewById(R.id.view);
+                colorPickerView = root.findViewById(R.id.colorPicker);
                 PresetCB = root.findViewById(R.id.PresetOnCheckbox);
                 sp_preset = root.findViewById(R.id.sp_preset);
+                sp_device = root.findViewById(R.id.sp_device);
 
-                hueWheel.setDrawingCacheEnabled(true);
-                hueWheel.buildDrawingCache(false);
+                dBhelper = new openDBHelper(getContext());
 
-                hueWheel.setOnTouchListener(new View.OnTouchListener() {
+                initcv();
+
+                sp_device.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, title));
+
+                colorPickerView.setInitialColor(Color.WHITE);
+                colorPickerView.subscribe(new ColorObserver() {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
-                            try {
-
-                                bitmap = hueWheel.getDrawingCache();
-
-                                int pixel = bitmap.getPixel((int) event.getX(), (int) event.getY());
-
-                                int r = Color.red(pixel);
-                                int g = Color.green(pixel);
-                                int b = Color.blue(pixel);
-
-                                mColor.setBackgroundColor(Color.rgb(r, g, b));
-                            }catch(Exception e){
-                                //Toast.makeText(getContext(), "Вы вышли за пределы колеса", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        return true;
+                    public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
+                        sp_device.setBackgroundColor(color);
                     }
                 });
 
@@ -90,5 +90,14 @@ public class ColorsFragment extends Fragment {
             }
         });
         return root;
+    }
+    private static void initcv() {
+        Cursor cursor = dBhelper.cursor();
+
+        title.clear();
+
+        while (cursor.moveToNext()) {
+            title.add(cursor.getString(1));
+        }
     }
 }

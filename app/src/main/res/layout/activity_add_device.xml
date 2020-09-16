@@ -41,4 +41,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addDeviceName"
         app:layout_constraintVertical_bias="0.05" />
+
+    <TextView
+        android:id="@+id/WifiDeviceInfo"
+        android:layout_width="369dp"
+        android:layout_height="439dp"
+        app:layout_constraintBottom_toTopOf="@+id/addDevice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DeviceAddingSp"
+        app:layout_constraintVertical_bias="0.458" />
 </androidx.constraintlayout.widget.ConstraintLayout>

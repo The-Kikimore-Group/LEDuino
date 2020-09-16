@@ -3,6 +3,7 @@ package com.kikimore.leduino.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,6 +28,9 @@ import com.kikimore.leduino.openDBHelper;
 
 import java.util.ArrayList;
 
+import top.defaults.colorpicker.ColorPickerPopup;
+import top.defaults.colorpicker.ColorPickerView;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel dashboardViewModel;
@@ -34,6 +38,7 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fab;
     private static RVdeviceListAdapter adapter;
     private SwipeRefreshLayout swp;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class HomeFragment extends Fragment {
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 rv.setAdapter(adapter);
                 adapter.initcv(getContext());
+
+
 
                 swp.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
