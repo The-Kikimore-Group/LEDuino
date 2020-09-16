@@ -72,7 +72,6 @@ public class ColorsFragment extends Fragment {
                 colorPickerView.subscribe(new ColorObserver() {
                     @Override
                     public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
-                        sp_device.setBackgroundColor(color);
                     }
                 });
 
