@@ -65,9 +65,6 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
 
                     dBhelper = new openDBHelper(context);
 
-                    Toast.makeText(context, String.valueOf(id.size()), Toast.LENGTH_SHORT)
-                            .show();
-
                     notifyItemRemoved(newPosition);
             }
         });
