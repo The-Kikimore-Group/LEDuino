@@ -54,6 +54,9 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
     public void onBindViewHolder(@NonNull final deviceListView holder, final int position) {
 
          holder.nameOfDevice.setText(title.get(position));
+         holder.SSID.setText("UID: " + uid.get(position));
+         holder.IP.setText("ID: " + id.get(position));
+         holder.typeofdevice.setText("Тип устройства: " + devicetype.get(position));
 
          holder.delDevice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +82,7 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
 
     class deviceListView extends RecyclerView.ViewHolder {
 
-        TextView nameOfDevice, IP;
+        TextView nameOfDevice, IP, typeofdevice;
         TextView SSID;
         LinearLayout delDevice;
 
@@ -92,6 +95,7 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
             delDevice = itemView.findViewById(R.id.delDevice);
             SSID = itemView.findViewById(R.id.SSID);
             IP = itemView.findViewById(R.id.ipadress);
+            typeofdevice = itemView.findViewById(R.id.typeOfDevice);
         }
     }
     public void initcv(Context context) {
