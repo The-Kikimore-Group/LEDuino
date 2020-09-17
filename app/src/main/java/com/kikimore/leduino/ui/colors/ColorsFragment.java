@@ -1,6 +1,7 @@
 package com.kikimore.leduino.ui.colors;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kikimore.leduino.Device;
 import com.kikimore.leduino.R;
+import com.kikimore.leduino.login_activity;
 
 import java.util.ArrayList;
 
@@ -39,8 +43,10 @@ public class ColorsFragment extends Fragment {
     private ColorPickerView colorPickerView;
 
     private Spinner sp_preset, sp_device;
+    private static FirebaseAuth mAuth;
 
     private ColorsViewModel homeViewModel;
+    private DatabaseReference mColor;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -51,6 +57,8 @@ public class ColorsFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onChanged(@Nullable String s) {
+
+                mAuth = FirebaseAuth.getInstance();
 
                 colorPickerView = root.findViewById(R.id.colorPicker);
                 PresetCB = root.findViewById(R.id.PresetOnCheckbox);
@@ -64,23 +72,25 @@ public class ColorsFragment extends Fragment {
                 colorPickerView.setInitialColor(Color.WHITE);
 
 
-
                sp_device.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                    @Override
                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                       final DatabaseReference mColor = FirebaseDatabase.getInstance()
-                               .getReference("Devices")
-                               .child(ida.get(position))
-                               .child("color");
+                       if(mAuth.getCurrentUser() != null) {
+                           mColor = FirebaseDatabase.getInstance()
+                                   .getReference("Devices")
+                                   .child(mAuth.getUid())
+                                   .child(ida.get(position))
+                                   .child("color");
+                           colorPickerView.subscribe(new ColorObserver() {
+                               @RequiresApi(api = Build.VERSION_CODES.O)
+                               @Override
+                               public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
+                                   //Color clr = Color.valueOf(color);
 
-                       colorPickerView.subscribe(new ColorObserver() {
-                           @RequiresApi(api = Build.VERSION_CODES.O)
-                           @Override
-                           public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
-                               //Color clr = Color.valueOf(color);
-                               mColor.setValue(Integer.toHexString(color));
-                           }
-                       });
+                                   mColor.setValue(Integer.toHexString(color));
+                               }
+                           });
+                       }
                    }
                    @Override
                    public void onNothingSelected(AdapterView<?> parent) {
@@ -104,24 +114,39 @@ public class ColorsFragment extends Fragment {
         return root;
     }
     private static void initcv() {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices");
+        if(mAuth.getCurrentUser() != null) {
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices").child(mAuth.getUid());
 
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                title.clear();
-                ida.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    Device device = ds.getValue(Device.class);
-                    assert  device != null;
-                    title.add(device.name);
-                    ida.add(device.id);
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    title.clear();
+                    ida.clear();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Device device = ds.getValue(Device.class);
+                        assert device != null;
+                        title.add(device.name);
+                        ida.add(device.id);
+                    }
+
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            Intent intent = new Intent(getContext(), login_activity.class);
+            startActivity(intent);
+        }
     }
 }

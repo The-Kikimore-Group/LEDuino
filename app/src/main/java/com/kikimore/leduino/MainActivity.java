@@ -1,13 +1,17 @@
 package com.kikimore.leduino;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,13 +26,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
     private static ArrayList<String> id, title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -51,9 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static String intToIP(int i) {
-        return ((i & 0xFF) + "." + ((i >> 8) & 0xFF) +
-                "." + ((i >> 16) & 0xFF) + "." + ((i >> 24) & 0xFF));
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            Intent intent = new Intent(this, login_activity.class);
+            startActivity(intent);
+        }
     }
 
 }

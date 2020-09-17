@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapter.deviceListView> {
     Context context;
+    private FirebaseAuth mAuth;
     public RVdeviceListAdapter(Context context) {
         this.context = context;
     }
@@ -100,7 +102,9 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
     }
     public void initcv(Context context) {
 
-            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices");
+        mAuth = FirebaseAuth.getInstance();
+
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices").child(mAuth.getUid());
 
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override

@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ArduinoCheckup"></activity>
+        <activity android:name=".login_activity"></activity>
+        <activity android:name=".ArduinoCheckup" />
         <activity android:name=".add_device" />
         <activity
             android:name=".MainActivity"

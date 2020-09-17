@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kikimore.leduino.ui.home.HomeFragment;
@@ -37,6 +38,7 @@ public class add_device extends AppCompatActivity {
     private EditText addname;
     private Button addButton;
     private Spinner devicesp;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class add_device extends AppCompatActivity {
         addname = findViewById(R.id.addDeviceName);
         addButton = findViewById(R.id.addDevice);
         devicesp = findViewById(R.id.DeviceTypeSp);
+        mAuth = FirebaseAuth.getInstance();
 
 
         final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.device_type, android.R.layout.simple_spinner_item);
@@ -66,14 +69,14 @@ public class add_device extends AppCompatActivity {
 
                 String key = mDatabase.push().getKey();
                 Device newDevice = new Device(addname.getText().toString(), "RGB Лента",
-                        null, "10294", key);
-                mDatabase.child(key).setValue(newDevice);
+                        null, mAuth.getUid(), key);
+                mDatabase.child(mAuth.getUid()).child(key).setValue(newDevice);
 
                 HomeFragment.ref(getApplicationContext());
 
                 Intent intent = new Intent(getApplicationContext(), ArduinoCheckup.class);
                 intent.putExtra("key",  key);
-                intent.putExtra("uid", "10294");
+                intent.putExtra("uid", mAuth.getUid());
                 startActivity(intent);
 
                 close();
