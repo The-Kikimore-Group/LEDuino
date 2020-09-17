@@ -1,7 +1,8 @@
 package com.kikimore.leduino;
 
 public class Device {
-    public String name, devicetype, color, uid, id;
+    public String name, devicetype, uid, id;
+    public String color;
 
     public Device(){
 

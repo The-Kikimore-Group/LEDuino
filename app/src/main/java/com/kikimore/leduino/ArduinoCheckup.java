@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ArduinoCheckup extends AppCompatActivity {
 
-    private String id, uid;
+    private Button btadd;
     private TextView idtv, uidtv;
 
 
@@ -29,9 +31,20 @@ public class ArduinoCheckup extends AppCompatActivity {
 
         idtv = findViewById(R.id.idCode);
         uidtv = findViewById(R.id.uidCode);
+        btadd = findViewById(R.id.CheckupDevice);
 
         Intent intent = getIntent();
         idtv.setText(intent.getStringExtra("key"));
         uidtv.setText(intent.getStringExtra("uid"));
+
+        btadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
+    }
+    private void close(){
+        this.finish();
     }
 }
