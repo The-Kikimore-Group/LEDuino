@@ -13,8 +13,10 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kikimore.leduino.ui.home.HomeFragment;
 import com.kikimore.leduino.ui.home.HomeViewModel;
 
@@ -30,13 +34,10 @@ import java.util.List;
 
 public class add_device extends AppCompatActivity {
 
-    private EditText addname, ip;
+    private EditText addname;
     private Button addButton;
-    private WifiManager mWifiManager;
-    private TextView tv1,pbtv;
-    private ProgressBar pb;
     private Spinner devicesp;
-    private CheckBox chbmanual;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,70 +47,35 @@ public class add_device extends AppCompatActivity {
 
         addname = findViewById(R.id.addDeviceName);
         addButton = findViewById(R.id.addDevice);
-        tv1 = findViewById(R.id.WifiDeviceInfo);
-        pbtv = findViewById(R.id.Progresstv);
-        pb = findViewById(R.id.progressBar);
-        devicesp = findViewById(R.id.DeviceAddingSp);
-        chbmanual = findViewById(R.id.checkBoxManual);
-        ip = findViewById(R.id.ed_ip);
+        devicesp = findViewById(R.id.DeviceTypeSp);
 
-        chbmanual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chbmanual.isChecked()){
-                    devicesp.setVisibility(View.INVISIBLE);
-                    ip.setVisibility(View.VISIBLE);
-                }else{
-                    ip.setVisibility(View.INVISIBLE);
-                    devicesp.setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
-        ip.setText("http://192.168.1.1/?");
+        final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.device_type, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        final get_request get_request = new get_request();
+        devicesp.setAdapter(adapter1);
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices");
+
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                pb.setVisibility(View.VISIBLE);
-                pbtv.setVisibility(View.VISIBLE);
-
-                pbtv.setText("Инициализация адаптера...");
-
                 RecyclerView.Adapter adapter = new RVdeviceListAdapter(getApplicationContext());
-                openDBHelper dBhelper = new openDBHelper(getApplicationContext());
 
+                String key = mDatabase.push().getKey();
+                Device newDevice = new Device(addname.getText().toString(), "RGB Лента",
+                        null, "10294", key);
+                mDatabase.child(key).setValue(newDevice);
 
-                pbtv.setText("Проверка устройства...");
-
-                try{
-                    if (get_request.deviceChecking(String.valueOf(ip.getText()))) {
-                        pbtv.setText("Проверка прошла успешно!");
-
-                        pbtv.setText("Добавление информации...");
-
-                        dBhelper.addInfo(addname.getText().toString());
-                        HomeFragment.ref(getApplicationContext());
-                        //adapter.notifyItemInserted(0);
-
-                        pbtv.setText("Закрытие активности...");
-                        close();
-                    } else {
-                        pbtv.setText("Ошибка при проверке устройства!");
-                    }
-                }catch (Exception e){
-                    pbtv.setText("Ошибка при проверке устройства!");
-                }
-
-                pbtv.setText("Добавление информации...");
-
-                dBhelper.addInfo(addname.getText().toString());
                 HomeFragment.ref(getApplicationContext());
 
-                pbtv.setText("Закрытие активности...");
+                Intent intent = new Intent(getApplicationContext(), ArduinoCheckup.class);
+                intent.putExtra("key",  key);
+                intent.putExtra("uid", "ЖОПА");
+                startActivity(intent);
+
                 close();
             }
         });

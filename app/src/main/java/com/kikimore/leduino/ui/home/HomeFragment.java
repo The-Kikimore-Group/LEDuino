@@ -2,11 +2,8 @@ package com.kikimore.leduino.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,16 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.kikimore.leduino.MainActivity;
 import com.kikimore.leduino.R;
 import com.kikimore.leduino.RVdeviceListAdapter;
 import com.kikimore.leduino.add_device;
-import com.kikimore.leduino.openDBHelper;
-
-import java.util.ArrayList;
-
-import top.defaults.colorpicker.ColorPickerPopup;
-import top.defaults.colorpicker.ColorPickerView;
 
 public class HomeFragment extends Fragment {
 

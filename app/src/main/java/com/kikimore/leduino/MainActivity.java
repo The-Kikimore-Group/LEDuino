@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -21,8 +23,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static openDBHelper dBhelper;
-    private static WifiInfo mWifiInfo;
     private static ArrayList<String> id, title;
 
     @Override
@@ -41,20 +41,14 @@ public class MainActivity extends AppCompatActivity {
 
         id = new ArrayList<>();
         title = new ArrayList<>();
-        dBhelper = new openDBHelper(this);
-        initcv();
 
 
-        WifiManager mWifiManager = (WifiManager)
-                getApplicationContext().getSystemService(getApplicationContext().WIFI_SERVICE);
-        mWifiInfo = mWifiManager.getConnectionInfo();
-        Log.e("IP in Mask Integer", mWifiInfo.getIpAddress() + "");
-        Log.e("IP Address", intToIP(mWifiInfo.getIpAddress()) + "");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
 
-        String sub = mWifiInfo.getSSID();
-
-        //NetWork.net();
     }
 
     public static String intToIP(int i) {
@@ -62,25 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 "." + ((i >> 16) & 0xFF) + "." + ((i >> 24) & 0xFF));
     }
 
-    public static String getSsid() {
-        return mWifiInfo.getSSID();
-    }
-
-    public static String getMyOwnIP() {
-        return intToIP(mWifiInfo.getIpAddress());
-    }
-
-    public static void initcv() {
-        Cursor cursor = dBhelper.cursor();
-
-        id.clear();
-        title.clear();
-
-        while (cursor.moveToNext()) {
-            id.add(cursor.getString(0));
-            title.add(cursor.getString(1));
-        }
-    }
 }
 
 

@@ -15,6 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kikimore.leduino.ui.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -22,11 +27,11 @@ import java.util.ArrayList;
 
 public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapter.deviceListView> {
     Context context;
-    private static openDBHelper dBhelper;
     public RVdeviceListAdapter(Context context) {
         this.context = context;
     }
-    public static ArrayList<String> id = new ArrayList<>(), title = new ArrayList<>();
+    public static ArrayList<String> id = new ArrayList<>(), title = new ArrayList<>(),
+        devicetype = new ArrayList<>(), uid = new ArrayList<>();
 
     @NonNull
     @Override
@@ -49,21 +54,18 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
     public void onBindViewHolder(@NonNull final deviceListView holder, final int position) {
 
          holder.nameOfDevice.setText(title.get(position));
-         holder.SSID.setText("SSID: " + MainActivity.getSsid());
-         holder.IP.setText("IP: " + MainActivity.getMyOwnIP());
 
          holder.delDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    final openDBHelper dbHelper = new openDBHelper(context);
+                 DatabaseReference delDB =
+                         FirebaseDatabase.getInstance().getReference("Devices").child(id.get(position));
 
-                    dbHelper.deleteData(id.get(position));
+                 delDB.removeValue();
 
                     initcv(context);
 
                     int newPosition = holder.getAdapterPosition();
-
-                    dBhelper = new openDBHelper(context);
 
                     notifyItemRemoved(newPosition);
             }
@@ -93,16 +95,31 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
         }
     }
     public void initcv(Context context) {
-            dBhelper = new openDBHelper(context);
 
-            Cursor cursor = dBhelper.cursor();
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Devices");
 
-            id.clear();//
-            title.clear();
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    id.clear();
+                    title.clear();
+                    devicetype.clear();
+                    uid.clear();
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        Device device = ds.getValue(Device.class);
+                        assert  device != null;
+                        id.add(device.id);
+                        title.add(device.name);
+                        devicetype.add(device.devicetype);
+                        uid.add(device.uid);
+                    }
+                    notifyDataSetChanged();
+                }
 
-            while (cursor.moveToNext()) {
-                id.add(cursor.getString(0));
-                title.add(cursor.getString(1));
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+
     }
 }

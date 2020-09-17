@@ -9,4 +9,7 @@
         <item>Переливание</item>
         <item>Плавная смена цвета</item>
     </string-array>
+    <string-array name="device_type">
+        <item>RGB Лента</item>
+    </string-array>
 </resources>
