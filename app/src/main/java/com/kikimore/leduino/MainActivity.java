@@ -50,12 +50,6 @@ public class MainActivity extends AppCompatActivity {
         title = new ArrayList<>();
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
-
-
     }
 
     @Override

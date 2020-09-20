@@ -64,9 +64,10 @@ public class RVdeviceListAdapter extends RecyclerView.Adapter<RVdeviceListAdapte
             @Override
             public void onClick(View v) {
                  DatabaseReference delDB =
-                         FirebaseDatabase.getInstance().getReference("Devices").child(id.get(position));
+                         FirebaseDatabase.getInstance().getReference("Devices").child(mAuth.getUid())
+                                 .child(id.get(position));
 
-                 delDB.removeValue();
+                    delDB.removeValue();
 
                     initcv(context);
 

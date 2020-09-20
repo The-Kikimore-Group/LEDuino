@@ -20,7 +20,6 @@
                     android:id="@+id/nameOfDevice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Компухтер:"
                     style="@style/TextAppearance.AppCompat"
                     android:textSize="20dp"
                     android:layout_marginHorizontal="20dp"
@@ -31,7 +30,6 @@
                     android:layout_width="377dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:text="SSID: Wifi"
                     android:textSize="18dp" />
 
                 <TextView
@@ -40,7 +38,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:singleLine="true"
-                    android:text="IP: 192.168.0.1"
                     android:textSize="18dp" />
 
 
@@ -63,7 +60,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="Тип устройства: Данное Устройство"
                     android:textSize="18dp" />
 
                 <TextView
@@ -72,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Напряжение на ленте: N/A"
+                    android:text="@string/ex_voltage"
                     android:textSize="18dp" />
 
             </LinearLayout>
@@ -92,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
-                    android:text="Перейти в настройки"
+                    android:text="@string/goto_settings"
                     android:layout_marginVertical="10dp"/>
             </LinearLayout>
             <View
@@ -110,7 +106,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Удалить устройство"
+                    android:text="@string/device_delete"
                     android:textSize="18dp"
                     android:layout_marginVertical="10dp"
                     android:textColor="#ff0000"/>

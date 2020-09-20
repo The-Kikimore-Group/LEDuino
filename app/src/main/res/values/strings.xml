@@ -3,6 +3,20 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="addDeviceName_hint">Введите название устройства</string>
+    <string name="bt_txt_addDevice">Продолжить</string>
+    <string name="txt_adddevicecodes">Введите эти данные в ваш скетч:</string>
+    <string name="txt_adddevice_done">Готово</string>
+    <string name="txt_button_reg">Зарегистрироваться</string>
+    <string name="txt_ad_email">Введите E-mail</string>
+    <string name="txt_ed_pass">Введите пароль</string>
+    <string name="txt_ed_login">Вход</string>
+    <string name="ex_voltage">Напряжение на ленте: N/A</string>
+    <string name="goto_settings">Перейти в настройки</string>
+    <string name="device_delete">Удалить устройство</string>
+    <string name="take_preset">Использовать пресет</string>
+    <string name="kikimore_2020">©Kikimore 2020</string>
+    <string name="logou">Выйти из аккаунта</string>
 
     <string-array name="presets">
         <item>Мерцание</item>
