@@ -40,34 +40,41 @@ public class login_activity extends AppCompatActivity {
         regbt = findViewById(R.id.RegButton);
 
         mAuth = FirebaseAuth.getInstance();
-
-            loginbt.setOnClickListener(new View.OnClickListener() {
+              loginbt.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      try {
+                      mAuth.signInWithEmailAndPassword(emailed.getText().toString(),
+                              passed.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                          @Override
+                          public void onComplete(@NonNull Task<AuthResult> task) {
+                              if (task.isSuccessful()) {
+                                  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                  startActivity(intent);
+                              } else {
+                                  Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                              }
+                          }
+                      });
+                  }catch (Exception e){
+                          Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                      }
+                  }
+              });
+          regbt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mAuth.signInWithEmailAndPassword(emailed.getText().toString(),
-                            passed.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT);
+                    try {
+                        mAuth.createUserWithEmailAndPassword(emailed.getText().toString(),
+                                passed.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                regbt.setText("Регистрация прошла успешно");
                             }
-                        }
-                    });
-                }
-            });
-            regbt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mAuth.createUserWithEmailAndPassword(emailed.getText().toString(),
-                            passed.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            regbt.setText("Регистрация прошла успешно");
-                        }
-                    });
+                        });
+                    }catch (Exception e){
+                        Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
     }

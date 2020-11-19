@@ -41,12 +41,13 @@ public class ColorsFragment extends Fragment {
     private CheckBox PresetCB;
     private static ArrayList<String> title = new ArrayList<>(), ida = new ArrayList<>();
     private ColorPickerView colorPickerView;
-
+    public static int pos;
     private Spinner sp_preset, sp_device;
     private static FirebaseAuth mAuth;
 
     private ColorsViewModel homeViewModel;
     private DatabaseReference mColor;
+    private DatabaseReference mPreset;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -75,34 +76,59 @@ public class ColorsFragment extends Fragment {
                sp_device.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                    @Override
                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                       if(mAuth.getCurrentUser() != null) {
-                           mColor = FirebaseDatabase.getInstance()
-                                   .getReference("Devices")
-                                   .child(mAuth.getUid())
-                                   .child(ida.get(position))
-                                   .child("color");
-                           colorPickerView.subscribe(new ColorObserver() {
-                               @RequiresApi(api = Build.VERSION_CODES.O)
-                               @Override
-                               public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
-                                   //Color clr = Color.valueOf(color);
+                       pos = position;
 
-                                   mColor.setValue(Integer.toHexString(color));
-                               }
-                           });
+                       if(mAuth.getCurrentUser() != null) {
+                           if(!PresetCB.isChecked()) {
+                               mColor = FirebaseDatabase.getInstance()
+                                       .getReference("Devices")
+                                       .child(mAuth.getUid())
+                                       .child(ida.get(position))
+                                       .child("color");
+                               colorPickerView.subscribe(new ColorObserver() {
+                                   @RequiresApi(api = Build.VERSION_CODES.O)
+                                   @Override
+                                   public void onColor(int color, boolean fromUser, boolean shouldPropagate) {
+                                       //Color clr = Color.valueOf(color);
+
+                                       mColor.setValue(Integer.toHexString(color));
+                                   }
+                               });
+                           }
                        }
                    }
                    @Override
                    public void onNothingSelected(AdapterView<?> parent) {
                    }
                });
-
-
                 PresetCB.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(PresetCB.isChecked()){
+                            mPreset = FirebaseDatabase.getInstance()
+                                    .getReference("Devices")
+                                    .child(mAuth.getUid())
+                                    .child(ida.get(pos))
+                                    .child("Preset");
                             sp_preset.setVisibility(View.VISIBLE);
+                            sp_preset.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    switch(position) {
+                                        case (0):
+                                            mPreset.setValue("1");
+                                        case (1):
+                                            mPreset.setValue("2");
+                                        case (2):
+                                            mPreset.setValue("3");
+                                    }
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    mPreset.setValue("0");
+                                }
+                            });
                         }else{
                             sp_preset.setVisibility(View.INVISIBLE);
                         }
