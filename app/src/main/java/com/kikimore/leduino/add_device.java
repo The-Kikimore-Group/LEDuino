@@ -77,6 +77,7 @@ public class add_device extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ArduinoCheckup.class);
                 intent.putExtra("key",  key);
                 intent.putExtra("uid", mAuth.getUid());
+                
                 startActivity(intent);
 
                 close();

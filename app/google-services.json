@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "649539313245",
+    "firebase_url": "https://leduino-96d56.firebaseio.com",
+    "project_id": "leduino-96d56",
+    "storage_bucket": "leduino-96d56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649539313245:android:c84ac2bfbbbfa31e3cf7b4",
+        "android_client_info": {
+          "package_name": "com.kikimore.leduino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649539313245-b65ddp9uu4ermntbei2kg1io2so4248c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kikimore.leduino",
+            "certificate_hash": "871ba554ca00375df005f5895d8b36ca77b5e059"
+          }
+        },
+        {
+          "client_id": "649539313245-39gbo3bn90n1cou484a0623one62dopm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLNXhyq0qhw_fYswlAKqZfjVEU54eqbnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649539313245-39gbo3bn90n1cou484a0623one62dopm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

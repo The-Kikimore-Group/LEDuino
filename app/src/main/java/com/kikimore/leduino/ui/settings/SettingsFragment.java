@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ public class SettingsFragment extends Fragment {
     private SettingsViewModel notificationsViewModel;
     private TextView exitAccount;
     private FirebaseAuth mAuth;
+    private LinearLayout setting_arduino;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class SettingsFragment extends Fragment {
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
+               setting_arduino = root.findViewById(R.id.setting_arduino);
 
                mAuth = FirebaseAuth.getInstance();
                exitAccount = root.findViewById(R.id.exitbutton);
@@ -41,7 +44,6 @@ public class SettingsFragment extends Fragment {
                    @Override
                    public void onClick(View v) {
                        mAuth.signOut();
-
                        FirebaseUser currentUser = mAuth.getCurrentUser();
                        if(currentUser == null){
                            Intent intent = new Intent(getContext(), login_activity.class);

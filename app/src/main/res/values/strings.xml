@@ -17,6 +17,8 @@
     <string name="take_preset">Использовать пресет</string>
     <string name="kikimore_2020">©Kikimore 2020</string>
     <string name="logou">Выйти из аккаунта</string>
+    <string name="firebase_host">leduino-96d56.firebaseio.com</string>
+    <string name="api_key">AIzaSyCLNXhyq0qhw_fYswlAKqZfjVEU54eqbnU</string>
 
     <string-array name="presets">
         <item>Мерцание</item>
